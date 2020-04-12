@@ -8,12 +8,15 @@ import cli from 'cli-ux'
 import * as moment from 'moment'
 
 export default class Slot extends Command {
-  static description = 'describe the command here'
+  static description = 'search for the next available slot in an Auchan Drive store'
 
   static examples = [
-    `$ auchand-check slot
-Checking next available slot for 
-Slot found : undefined
+    `$ auchand-check slot -s 870 -p -n xxxxxxxxxxx
+- Name: Aubiere / Clermont Ferrand
+- Slot: Wed Apr 15 2020 12:00:00 GMT+0200
+Checking slot availability for 870... done
+Persisting slot in ./db/auchan-drive.db... done
+Notifying slack channel xxxxxxxxxxx... done
 `,
   ]
 
@@ -22,23 +25,27 @@ Slot found : undefined
     storeId: flags.string({char: 's', default: '870', description: 'Id of the store to check'}),
     dbFile: flags.string({char: 'd', default: './db/auchan-drive.db', description: 'Local database file'}),
     notify: flags.string({char: 'n', description: 'Slack channel to notify'}),
-    persist: flags.boolean({char: 'p'}),
+    persist: flags.boolean({char: 'p', description: 'Enable persistence'}),
   }
 
   async run() {
     const {flags} = this.parse(Slot)
 
-    cli.action.start(`Check slot availability for ${flags.storeId}`)
+    cli.action.start(`Checking slot availability for ${flags.storeId}`)
     const {name, url, slot} = await this.checkSlot(flags.storeId as unknown as number)
     cli.action.stop()
 
     let changed = true
     if (flags.persist) {
+      cli.action.start(`Persisting slot in ${flags.dbFile}`)
       changed = await this.persistSlot(flags.dbFile, flags.storeId as unknown as number, slot)
+      cli.action.stop()
     }
 
     if (flags.notify && changed) {
+      cli.action.start(`Notifying slack channel ${flags.notify}`)
       await this.notifySlack(flags.notify, name, url, slot)
+      cli.action.stop()
     }
   }
 
