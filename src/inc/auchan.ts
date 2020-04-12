@@ -29,9 +29,13 @@ export default class Auchan {
     context.clearCookies()
 
     const page = await context.newPage()
-    await page.goto(sprintf(Auchan.uri, this.storeId))
+    await page.goto(this.getUrl())
     await page.waitForLoadState()
 
     return {browser, context, page}
+  }
+
+  getUrl(): string  {
+    return sprintf(Auchan.uri, this.storeId)
   }
 }
