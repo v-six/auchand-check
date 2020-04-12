@@ -19,7 +19,7 @@ $ npm install -g auchand-check
 $ auchand-check COMMAND
 running command...
 $ auchand-check (-v|--version|version)
-auchand-check/0.2.0 darwin-x64 node-v13.12.0
+auchand-check/0.3.0 darwin-x64 node-v13.12.0
 $ auchand-check --help [COMMAND]
 USAGE
   $ auchand-check COMMAND
@@ -72,5 +72,5 @@ EXAMPLE
   Notifying slack channel xxxxxxxxxxx... done
 ```
 
-_See code: [src/commands/slot.ts](https://github.com/v-six/auchand-check/blob/v0.2.0/src/commands/slot.ts)_
+_See code: [src/commands/slot.ts](https://github.com/v-six/auchand-check/blob/v0.3.0/src/commands/slot.ts)_
 <!-- commandsstop -->

@@ -1,7 +1,7 @@
 {
   "name": "auchand-check",
   "description": "Little tool to check if an Auchan Drive have an available slot",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "author": "Kévin Bargoin @v-six",
   "bin": {
     "auchand-check": "./bin/run"
