@@ -39,7 +39,8 @@
     "/bin",
     "/lib",
     "/npm-shrinkwrap.json",
-    "/oclif.manifest.json"
+    "/oclif.manifest.json",
+    "/db/database.sql"
   ],
   "homepage": "https://github.com/v-six/auchand-check",
   "keywords": [
