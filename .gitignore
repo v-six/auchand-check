@@ -1,6 +1,7 @@
 *.db
 *-debug.log
 *-error.log
+.npmrc
 /.nyc_output
 /dist
 /lib
