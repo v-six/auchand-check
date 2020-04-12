@@ -4,6 +4,7 @@
 .npmrc
 /.nyc_output
 /dist
+/db
 /lib
 /package-lock.json
 /tmp

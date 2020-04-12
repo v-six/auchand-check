@@ -1,6 +1,8 @@
 import * as sqlite3 from 'sqlite3'
 import {open, Database} from 'sqlite'
-import * as fs from 'fs'
+import {existsSync, mkdirSync, writeFileSync, readFileSync} from 'fs'
+import {dirname} from 'path'
+import {resolve} from 'app-root-path'
 
 export default class LocalDb {
   static db: Database;
@@ -10,8 +12,13 @@ export default class LocalDb {
    * @param {string} filePath The local db path
    */
   static async connect(filePath: string): Promise<Database> {
-    if (!fs.existsSync(filePath)) {
-      fs.writeFileSync(filePath, '')
+    const dirPath = dirname(filePath)
+    if (!existsSync(dirPath)) {
+      mkdirSync(dirPath, {recursive: true})
+    }
+
+    if (!existsSync(filePath)) {
+      writeFileSync(filePath, '')
     }
 
     const db = await open({
@@ -35,7 +42,7 @@ export default class LocalDb {
       return
     }
 
-    const dump = fs.readFileSync('./db/database.sql')
+    const dump = readFileSync(resolve('/external/database.sql'))
     await LocalDb.db.run(dump.toString('utf-8'))
   }
 

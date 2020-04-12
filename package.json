@@ -13,6 +13,8 @@
     "@oclif/plugin-help": "^2",
     "@slack/events-api": "^2.3.2",
     "@slack/web-api": "^5.8.0",
+    "@types/app-root-path": "^1.2.4",
+    "app-root-path": "^3.0.0",
     "cli-ux": "^5.4.5",
     "moment": "^2.24.0",
     "playwright": "^0.12.1",
@@ -40,7 +42,7 @@
     "/lib",
     "/npm-shrinkwrap.json",
     "/oclif.manifest.json",
-    "/db/database.sql"
+    "/external/database.sql"
   ],
   "homepage": "https://github.com/v-six/auchand-check",
   "keywords": [
