@@ -1,8 +1,7 @@
 import * as sqlite3 from 'sqlite3'
 import {open, Database} from 'sqlite'
-import {existsSync, mkdirSync, writeFileSync, readFileSync} from 'fs'
+import {existsSync, mkdirSync, writeFileSync} from 'fs'
 import {dirname} from 'path'
-import {resolve} from 'app-root-path'
 
 export default class LocalDb {
   static db: Database;
@@ -42,8 +41,12 @@ export default class LocalDb {
       return
     }
 
-    const dump = readFileSync(resolve('/external/database.sql'))
-    await LocalDb.db.run(dump.toString('utf-8'))
+    await LocalDb.db.run(`CREATE TABLE IF NOT EXISTS slots (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      store_id INTEGER NOT NULL,
+      date DATETIME DEFAULT NULL,
+      created_at DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL
+    )`)
   }
 
   static async close(): Promise<void> {
