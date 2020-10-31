@@ -55,18 +55,23 @@ Notifying slack channel xxxxxxxxxxx... done
     const auchan = new Auchan(storeId)
     const {browser, page} = await auchan.browse()
 
-    const name = await page.$eval('header.header .header__identity-pointOfService em', e => e.textContent)
+    await page.waitForSelector('header.site-header .journey-reminder-header .context-header__pos', {waitFor: 'attached'})
+    const name = await page.$eval('header.site-header .journey-reminder-header .context-header__pos', e => e.textContent)
     this.log(`- Name: ${name}`)
 
-    const slot = await page.$eval('#cart .cart-slots__slot-content', e => e.textContent)
+    await page.waitForSelector('#cms-slot-topSlot .journey-reminder .slot-selector', {waitFor: 'attached'})
+    const slot = await page.$eval('#cms-slot-topSlot .journey-reminder .slot-selector', e => ({
+      date: e.getAttribute('data-first-slot-date'),
+      time: e.getAttribute('data-first-slot-starting-hour'),
+    }))
     await browser.close()
 
-    if (slot === 'Aucun créneau disponible') {
+    if (!slot.date) {
       this.log('- No slot available for now')
       return {name, url: auchan.getUrl(), slot: undefined}
     }
 
-    const slotDate = moment(slot as string, 'dddd D MMMM YYYY - HH:mm')
+    const slotDate = moment(`${slot.date} ${slot.time}`, 'YYYY-MM-DD - HH:mm')
     this.log(`- Slot: ${slotDate}`)
 
     return {name, url: auchan.getUrl(), slot: slotDate}
