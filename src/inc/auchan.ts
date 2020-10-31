@@ -2,7 +2,7 @@ import * as playwright from 'playwright'
 import {sprintf} from 'sprintf-js'
 
 export default class Auchan {
-  static uri = 'https://www.auchandrive.fr/drive/mag/update-%s/';
+  static uri = 'https://www.auchan.fr/courses?storeReference=%s';
 
   storeId: number;
 
